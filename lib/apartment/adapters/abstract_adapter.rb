@@ -30,7 +30,7 @@ module Apartment
             config = config_for(tenant)
             difference = current_difference_from(config)
 
-            if difference[:host]
+            if difference[:host] || difference[:username]
               connection_switch(config, without_keys: [:database, :schema_search_path])
             end
 
@@ -54,7 +54,7 @@ module Apartment
         config = config_for(tenant)
         difference = current_difference_from(config)
 
-        if difference[:host]
+        if difference[:host] || difference[:username]
           connection_switch(config, without_keys: [:database])
         end
 

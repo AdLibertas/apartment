@@ -7,7 +7,7 @@ module Apartment
       def switch_tenant(config)
         difference = current_difference_from(config)
 
-        if difference[:host]
+        if difference[:host] || difference[:username]
           connection_switch!(config)
         else
           simple_switch(config) if difference[:database]
