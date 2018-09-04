@@ -128,6 +128,7 @@ module Apartment
 
       def current_difference_from(config)
         current_config = config_for(@current)
+        return config if current_config.nil?
         config.select{ |k, v| current_config[k] != v }
       end
 
