@@ -75,7 +75,7 @@ module Apartment
 
           config = config_for(tenant)
 
-          if Apartment.force_reconnect_on_switch
+          if Apartment.force_reconnect_on_switch && !config.nil?
             connection_switch!(config)
           else
             switch_tenant(config)
@@ -128,13 +128,12 @@ module Apartment
 
       def current_difference_from(config)
         current_config = config_for(@current)
-        return config if current_config.nil?
         config.select{ |k, v| current_config[k] != v }
       end
 
       def connection_switch!(config, without_keys: [])
         config = config.dup.tap do |c|
-          c.reject{ |k, _| without_keys.include?(k) } unless c.nil?
+          c.reject{ |k, _| without_keys.include?(k) }
         end
 
         config.merge!(name: connection_specification_name(config))
