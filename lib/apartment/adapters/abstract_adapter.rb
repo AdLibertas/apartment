@@ -75,7 +75,7 @@ module Apartment
 
           config = config_for(tenant)
 
-          if Apartment.force_reconnect_on_switch && !config.nil?
+          if Apartment.force_reconnect_on_switch
             connection_switch!(config)
           else
             switch_tenant(config)
