@@ -29,7 +29,8 @@ module Apartment
           "_apartment_#{config.hash}".to_sym
         else
           host_hash = Digest::MD5.hexdigest(config[:host] || config[:url] || "127.0.0.1")
-          "_apartment_#{host_hash}_#{config[:adapter]}".to_sym
+          username_hash = Digest::MD5.hexdigest(config[:username] || "root")
+          "_apartment_#{host_hash}_#{username_hash}_#{config[:adapter]}".to_sym
         end
       end
 
