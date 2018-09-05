@@ -134,7 +134,7 @@ module Apartment
 
       def connection_switch!(config, without_keys: [])
         config = config.dup.tap do |c|
-          c.reject{ |k, _| without_keys.include?(k) }
+          c.reject{ |k, _| without_keys.include?(k) } unless c.nil?
         end
 
         config.merge!(name: connection_specification_name(config))
