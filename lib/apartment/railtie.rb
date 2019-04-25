@@ -39,7 +39,7 @@ module Apartment
     #
     rake_tasks do
       load 'tasks/apartment.rake'
-      require 'apartment/tasks/enhancements' if Apartment.db_migrate_tenants
+      require 'apartment/tasks/enhancements'
     end
 
     #
