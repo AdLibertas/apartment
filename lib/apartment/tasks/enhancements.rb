@@ -13,23 +13,10 @@ module Apartment
       def enhance!
         TASKS.each do |name|
           task = Rake::Task[name]
-          task.enhance do
-            if should_enhance?
-              enhance_task(task)
-            end
-          end
+          task.enhance [Rake::Task[task.name.sub(/db:/, 'apartment:')]]
         end
       end
-    
-      def should_enhance?
-        Apartment.db_migrate_tenants
-      end
-    
-      def enhance_task(task)
-        Rake::Task[task.name.sub(/db:/, 'apartment:')].invoke
-      end
     end
-    
   end
 end
 
