@@ -6,7 +6,7 @@ module Apartment
       def resolve(tenant)
         return init_config if tenant.empty?
         tenant, = tenant if tenant.is_a?(Array)
-        tenant_names[tenant] || raise "Unable to resolve tenant #{tenant}"
+        tenant_names[tenant] || raise("Unable to resolve tenant #{tenant}")
       end
     end
   end
