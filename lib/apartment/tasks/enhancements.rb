@@ -4,7 +4,7 @@
 module Apartment
   class RakeTaskEnhancer
     
-    TASKS = %w(db:migrate db:rollback db:migrate:up db:migrate:down db:migrate:redo db:seed)
+    TASKS = %w(db:migrate db:rollback db:migrate:up db:migrate:down db:migrate:redo)
     
     # This is a bit convoluted, but helps solve problems when using Apartment within an engine
     # See spec/integration/use_within_an_engine.rb
