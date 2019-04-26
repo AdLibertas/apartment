@@ -4,7 +4,9 @@ module Apartment
   module Resolvers
     class Database < Abstract
       def resolve(tenant)
-        tenant_names[tenant] || init_config
+        return init_config if tenant.empty?
+        tenant, = tenant if tenant.is_a?(Array)
+        tenant_names[tenant] || raise "Unable to resolve tenant #{tenant}"
       end
     end
   end
