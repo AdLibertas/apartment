@@ -2,19 +2,9 @@ require 'apartment/migrator'
 
 apartment_namespace = namespace :apartment do
 
-  desc "Create all tenants"
-  task create: 'db:migrate' do
-    tenants.each do |tenant|
-      begin
-        quietly { Apartment::Tenant.create(tenant) }
-      rescue Apartment::TenantExists => e
-        puts e.message
-      end
-    end
-  end
-
   desc "Migrate all tenants"
   task :migrate do
+    next unless Apartment.db_migrate_tenants
     warn_if_tenants_empty
 
     tenants.each do |tenant|
@@ -26,23 +16,9 @@ apartment_namespace = namespace :apartment do
     end
   end
 
-  desc "Seed all tenants"
-  task :seed do
-    warn_if_tenants_empty
-
-    tenants.each do |tenant|
-      begin
-        Apartment::Tenant.switch(tenant) do
-          Apartment::Tenant.seed
-        end
-      rescue Apartment::TenantNotFound => e
-        puts e.message
-      end
-    end
-  end
-
   desc "Rolls the migration back to the previous version (specify steps w/ STEP=n) across all tenants."
   task :rollback do
+    next unless Apartment.db_migrate_tenants
     warn_if_tenants_empty
 
     step = ENV['STEP'] ? ENV['STEP'].to_i : 1
@@ -59,6 +35,7 @@ apartment_namespace = namespace :apartment do
   namespace :migrate do
     desc 'Runs the "up" for a given migration VERSION across all tenants.'
     task :up do
+      next unless Apartment.db_migrate_tenants
       warn_if_tenants_empty
 
       version = ENV['VERSION'] ? ENV['VERSION'].to_i : nil
@@ -75,6 +52,7 @@ apartment_namespace = namespace :apartment do
 
     desc 'Runs the "down" for a given migration VERSION across all tenants.'
     task :down do
+      next unless Apartment.db_migrate_tenants
       warn_if_tenants_empty
 
       version = ENV['VERSION'] ? ENV['VERSION'].to_i : nil
@@ -91,6 +69,7 @@ apartment_namespace = namespace :apartment do
 
     desc  'Rolls back the tenant one migration and re migrate up (options: STEP=x, VERSION=x).'
     task :redo do
+      next unless Apartment.db_migrate_tenants
       if ENV['VERSION']
         apartment_namespace['migrate:down'].invoke
         apartment_namespace['migrate:up'].invoke
