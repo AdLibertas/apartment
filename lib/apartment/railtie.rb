@@ -28,7 +28,7 @@ module Apartment
     #   See the middleware/console declarations below to help with this. Hope to fix that soon.
     #
     config.to_prepare do
-      unless ARGV.any? { |arg| arg =~ /\Aassets:(?:precompile|clean)\z/ }
+      unless ARGV.any? { |arg| arg =~ /\Agenerate:(?:\w)+\z|\Aassets:(?:precompile|clean)\z/ }
         Apartment::Tenant.init
         Apartment.connection_class.clear_active_connections!
       end
