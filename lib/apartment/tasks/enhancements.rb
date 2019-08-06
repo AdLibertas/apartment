@@ -22,7 +22,7 @@ module Apartment
       end
     
       def should_enhance?(name)
-        return true if name == 'db:seed' and Apartment.seed_after_create
+        return Apartment.seed_after_create if name == 'db:seed'
         Apartment.db_migrate_tenants
       end
     
