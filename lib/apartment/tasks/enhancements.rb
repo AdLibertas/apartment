@@ -14,14 +14,15 @@ module Apartment
         TASKS.each do |name|
           task = Rake::Task[name]
           task.enhance do
-            if should_enhance?
+            if should_enhance?(name)
               enhance_task(task)
             end
           end
         end
       end
     
-      def should_enhance?
+      def should_enhance?(name)
+        return true if name == 'db:seed' and Apartment.seed_after_create
         Apartment.db_migrate_tenants
       end
     
