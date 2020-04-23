@@ -5,7 +5,7 @@ module Apartment
 
       def initialize(init_config, tenant_names)
         @init_config = init_config.freeze
-        @tenant_names = tenant_names.freeze
+        @tenant_names = tenant_names
       end
 
       def resolve
