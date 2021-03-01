@@ -75,6 +75,8 @@ module Apartment
 
           config = config_for(tenant)
 
+          Apartment.connection_handler.clear_active_connections!
+
           if Apartment.force_reconnect_on_switch
             connection_switch!(config)
           else
